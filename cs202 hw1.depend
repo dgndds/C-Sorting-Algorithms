@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1583342538 source:d:\cs202 hw1\src\sorting.cpp
+	"sorting.h"
+	<iostream>
+	<string>
+
+1583342493 d:\cs202 hw1\include\sorting.h
+
+1583346317 source:d:\cs202 hw1\src\main.cpp
+	<iostream>
+	"sorting.h"
+	"auxArrayFunctions.h"
+
+1583341145 source:d:\cs202 hw1\src\auxarrayfunctions.cpp
+	<iostream>
+	<ctime>
+	<cmath>
+	<stdlib.h>
+	"auxArrayFunctions.h"
+
+1582714231 d:\cs202 hw1\include\auxarrayfunctions.h
+
