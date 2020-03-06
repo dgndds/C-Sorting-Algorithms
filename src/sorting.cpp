@@ -1,40 +1,47 @@
 #include "sorting.h"
+#include "auxArrayFunctions.h"
 #include <iostream>
 #include <string>
+#include <ctime>
+#include <cstdio>
 
 using namespace std;
 
+/*
+* Title: Algorithm Efficiency and Sorting
+* Author: Muhammed Doðancan Yýlmazoðlu
+* ID: 21801804
+* Section: 3
+* Assignment: 1
+* Description: Implementation of sorting functions
+*/
+
 void insertionSort(int *arr, int size, int &compCount, int &moveCount){
 
-    for (int unsorted = 1; unsorted < size; ++unsorted) {
+  for (int unsorted = 1; unsorted < size; ++unsorted) {
 
     int nextItem = arr[unsorted];
+    moveCount++;
 
+    int loc = unsorted;
 
-    for ( int loc = unsorted ;loc > 0; --loc){
+    for (  ;(loc > 0) && (arr[loc-1] > nextItem); --loc){
         arr[loc] = arr[loc-1];
-
-        if(arr[loc-1] > nextItem){
-            arr[loc] = nextItem;
-        }
+        compCount++;
+        moveCount++;
     }
+
+    arr[loc] = nextItem;
+    moveCount++;
   }
-
-
 }
 
-//void choosePivot(int *theArray, int first, int last){
-//    int temp = theArray[0];
-//    theArray[0] = theArray[first];
-//    theArray[first] = temp;
-//}
 
-void partition(int *theArray, int first, int last, int &pivotIndex) {
 
-	// place pivot in theArray[first]
-//   choosePivot(theArray, first, last);
+void partition(int *theArray, int first, int last, int &pivotIndex, int &compCount, int &moveCount) {
 
    int pivot = theArray[first]; // copy pivot
+   moveCount++;
 
           // initially, everything but pivot is in unknown
    int lastS1 = first;           // index of last item in S1
@@ -47,36 +54,37 @@ void partition(int *theArray, int first, int last, int &pivotIndex) {
 
       // move item from unknown to proper region
       if (theArray[firstUnknown] < pivot) {  	// belongs to S1
+          compCount++;
 		  ++lastS1;
     	  swap(theArray[firstUnknown], theArray[lastS1]);
+          moveCount++;
       }	// else belongs to S2
    }
    // place pivot in proper position and mark its location
    swap(theArray[first], theArray[lastS1]);
+   moveCount++;
    pivotIndex = lastS1;
 }
 
-void quickSortRecur(int *theArray, int first, int last){
+void quickSortRecur(int *theArray, int first, int last, int &compCount, int &moveCount){
     int pivotIndex;
 
     if (first < last) {
 
       // create the partition: S1, pivot, S2
-    partition(theArray, first, last, pivotIndex);
+    partition(theArray, first, last, pivotIndex, compCount, moveCount);
 
       // sort regions S1 and S2
-    quickSortRecur(theArray, first, pivotIndex-1);
-    quickSortRecur(theArray, pivotIndex+1, last);
+    quickSortRecur(theArray, first, pivotIndex-1, compCount, moveCount);
+    quickSortRecur(theArray, pivotIndex+1, last, compCount, moveCount);
     }
 }
 
 void quickSort(int *arr, int size, int &compCount, int &moveCount){
-
-
-    quickSortRecur(arr,0,size - 1);
+    quickSortRecur(arr,0,size - 1, compCount, moveCount);
 }
 
-void merge(int *theArray, int first, int mid, int last) {
+void merge(int *theArray, int first, int mid, int last, int &compCount, int &moveCount) {
 
 	int tempArray[last]; 	// temporary array
 
@@ -88,11 +96,14 @@ void merge(int *theArray, int first, int mid, int last) {
 
    for ( ; (first1 <= last1) && (first2 <= last2); ++index) {
       if (theArray[first1] < theArray[first2]) {
+         compCount++;
          tempArray[index] = theArray[first1];
+         moveCount++;
          ++first1;
       }
       else {
           tempArray[index] = theArray[first2];
+          moveCount++;
           ++first2;
       }
    }
@@ -100,38 +111,92 @@ void merge(int *theArray, int first, int mid, int last) {
 	// finish off the first subarray, if necessary
    for (; first1 <= last1; ++first1, ++index)
       tempArray[index] = theArray[first1];
+      moveCount++;
 
    // finish off the second subarray, if necessary
    for (; first2 <= last2; ++first2, ++index)
       tempArray[index] = theArray[first2];
+      moveCount++;
 
    // copy the result back into the original array
    for (index = first; index <= last; ++index)
       theArray[index] = tempArray[index];
+      moveCount++;
 
 }
 
-void mergesort( int *theArray, int first, int last) {
+void mergesort( int *theArray, int first, int last, int &compCount, int &moveCount) {
 
 	if (first < last) {
 
       int mid = (first + last)/2; 	// index of midpoint
 
-      mergesort(theArray, first, mid);
+      mergesort(theArray, first, mid, compCount, moveCount);
 
-      mergesort(theArray, mid+1, last);
+      mergesort(theArray, mid+1, last, compCount, moveCount);
 
       // merge the two halves
-      merge(theArray, first, mid, last);
+      merge(theArray, first, mid, last, compCount, moveCount);
    }
 }
 
 void mergeSort(int *arr, int size, int &compCount, int &moveCount){
-    mergesort(arr, 0 ,size - 1);
+    mergesort(arr, 0 ,size - 1, compCount, moveCount);
+}
+
+int timer(int* arr, int N, int value, bool linearSearch,int times){
+    double duration;
+    clock_t startTime = clock();
+
+
+    duration = 1000 * double( clock() - startTime ) / CLOCKS_PER_SEC;
+    cout << "Execution took " << duration/times << " milliseconds." << endl;
 }
 
 
+void performanceAnalysis(){
+    int* arr1;
+    int* arr2;
+    int* arr3;
 
+    int moveCount = 0;
+    int compCount = 0;
+
+    cout << " -----------------------------------------------------" << endl;
+    cout << "Part c - Time analysis of Insertion Sort" << endl;
+//    cout << "Array Size" << "Time Elapsed" << setw(30) << "compCount" <<  setw(30) << "moveCount" << endl;
+    printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
+
+    for(int i = 5000; i <= 30000; i += 5000){
+        createRandomArrays(arr1, arr2, arr3, i);
+        double duration;
+        clock_t startTime = clock();
+
+        insertionSort(arr1,i, compCount, moveCount);
+
+        duration = 1000 * double( clock() - startTime ) / CLOCKS_PER_SEC;
+
+        string durationStr = to_string(duration) + " ms";
+        //cout << right <<setw(15) << i << right << setw(13)  <<  duration << right << setw(30) << compCount << setw(30) << moveCount << endl;
+
+        printf("%-15d %-15s  %-15d %-15d \n", i, duration, durationStr , compCount,  moveCount);
+
+        moveCount = 0;
+        compCount = 0;
+    }
+
+
+
+
+
+
+
+
+
+//    mergeSort(arr1,N, compCount, moveCount);
+   // quickSort(arr1,N, compCount, moveCount);
+
+}
 
 
 
