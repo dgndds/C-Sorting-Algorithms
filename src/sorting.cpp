@@ -16,6 +16,7 @@ using namespace std;
 * Description: Implementation of sorting functions
 */
 
+// Insertion sort function
 void insertionSort(int *arr, int size, int &compCount, int &moveCount){
 
   for (int unsorted = 1; unsorted < size; ++unsorted) {
@@ -36,12 +37,13 @@ void insertionSort(int *arr, int size, int &compCount, int &moveCount){
   }
 }
 
+// Partions the array for quick sort
 void partition(int *theArray, int first, int last, int &pivotIndex, int &compCount, int &moveCount) {
 
    int pivot = theArray[first]; // copy pivot
    moveCount++;
 
-          // initially, everything but pivot is in unknown
+    // initially, everything but pivot is in unknown
    int lastS1 = first;           // index of last item in S1
    int firstUnknown = first + 1; // index of first item in unknown
 
@@ -64,6 +66,7 @@ void partition(int *theArray, int first, int last, int &pivotIndex, int &compCou
    pivotIndex = lastS1;
 }
 
+// Recusive part of quick sort algorithm
 void quickSortRecur(int *theArray, int first, int last, int &compCount, int &moveCount){
     int pivotIndex;
 
@@ -78,10 +81,12 @@ void quickSortRecur(int *theArray, int first, int last, int &compCount, int &mov
     }
 }
 
+// Given function. Calls recursive quick sort
 void quickSort(int *arr, int size, int &compCount, int &moveCount){
     quickSortRecur(arr,0,size - 1, compCount, moveCount);
 }
 
+// Merges to S1 and S2 of merge sort
 void merge(int *theArray, int first, int mid, int last, int &compCount, int &moveCount) {
 
 	int tempArray[last]; 	// temporary array
@@ -123,6 +128,7 @@ void merge(int *theArray, int first, int mid, int last, int &compCount, int &mov
 
 }
 
+//Recusive merge sort
 void mergesort( int *theArray, int first, int last, int &compCount, int &moveCount) {
 
 	if (first < last) {
@@ -145,26 +151,30 @@ void mergeSort(int *arr, int size, int &compCount, int &moveCount){
 
 void performanceAnalysis(bool sorted){
 
+    // For each 6 size of array, there is data of 3 sorting algorithms
     int moveCount[6][3] = {{0, 0},{0, 0}};
     int compCount[6][3] = {{0, 0},{0, 0}};
     double durations[6][3] = {{0, 0},{0, 0}};
 
-
+    // Start size by 5000 and increment 5000 each time
     for(int i = 5000; i <= 30000; i += 5000){
 
+        // 3 arrays to be used for algorithms
         int* arr1;
         int* arr2;
         int* arr3;
 
+        // Which type of array to be used is decided by the parameter
         if(sorted){
             createAlreadySortedArrays(arr1, arr2, arr3, i);
         }else{
             createRandomArrays(arr1, arr2, arr3, i);
         }
 
-
+        // second index to keep data of different algorithms
         int j = 0;
 
+        //Time taken by insertion sort algorithm
         double duration = 0;
 
         clock_t startTime = clock();
@@ -175,6 +185,7 @@ void performanceAnalysis(bool sorted){
         durations[(i/5000) - 1][j] = duration;
         j++;
 
+        //Time taken by merge sort algorithm
         startTime = clock();
 
         mergeSort(arr2,i, compCount[(i/5000) - 1][j], moveCount[(i/5000) - 1][j]);
@@ -184,6 +195,7 @@ void performanceAnalysis(bool sorted){
         durations[(i/5000) - 1][j] = duration;
         j++;
 
+        //Time taken by quick sort algorithm
         startTime = clock();
 
         quickSort(arr3,i, compCount[(i/5000) - 1][j], moveCount[(i/5000) - 1][j]);
@@ -193,6 +205,7 @@ void performanceAnalysis(bool sorted){
         durations[(i/5000) - 1][j] = duration;
     }
 
+    // This part results collected by the previous part
     cout << "-----------------------------------------------------" << endl;
     cout << "Part c - Time analysis of Insertion Sort" << endl;
     printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
