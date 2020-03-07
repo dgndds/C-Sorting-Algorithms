@@ -36,8 +36,6 @@ void insertionSort(int *arr, int size, int &compCount, int &moveCount){
   }
 }
 
-
-
 void partition(int *theArray, int first, int last, int &pivotIndex, int &compCount, int &moveCount) {
 
    int pivot = theArray[first]; // copy pivot
@@ -144,97 +142,75 @@ void mergeSort(int *arr, int size, int &compCount, int &moveCount){
     mergesort(arr, 0 ,size - 1, compCount, moveCount);
 }
 
-int timer(int* arr, int N, int value, bool linearSearch,int times){
-    double duration;
-    clock_t startTime = clock();
-
-
-    duration = 1000 * double( clock() - startTime ) / CLOCKS_PER_SEC;
-    cout << "Execution took " << duration/times << " milliseconds." << endl;
-}
-
 
 void performanceAnalysis(){
 
+    int moveCount[6][3] = {{0, 0},{0, 0}};
+    int compCount[6][3] = {{0, 0},{0, 0}};
+    double durations[6][3] = {{0, 0},{0, 0}};
 
-    int moveCount[5][3] = {{0, 0},{0, 0}};
-    int compCount[5][3] = {{0, 0},{0, 0}};
-    double durations[5][3] = {{0, 0},{0, 0}};
 
-
-    for(int i = 5000; i < 30000; i += 5000){
+    for(int i = 5000; i <= 30000; i += 5000){
 
         int* arr1;
         int* arr2;
         int* arr3;
 
         createRandomArrays(arr1, arr2, arr3, i);
-//            cout << (i/5000) - 1 << endl;
 
-            int j = 0;
+        int j = 0;
 
-            double duration;
+        double duration = 0;
 
-            clock_t startTime = clock();
+        clock_t startTime = clock();
 
-            insertionSort(arr1,i, compCount[(i/5000) - 1][j], moveCount[(i/5000) - 1][j]);
+        insertionSort(arr1,i, compCount[(i/5000) - 1][j], moveCount[(i/5000) - 1][j]);
 
-            duration = 1000 * double( clock() - startTime ) / CLOCKS_PER_SEC;
-            durations[(i/5000) - 1][j] = duration;
-            j++;
+        duration = 1000 * double( clock() - startTime ) / CLOCKS_PER_SEC;
+        durations[(i/5000) - 1][j] = duration;
+        j++;
 
-            startTime = clock();
+        startTime = clock();
 
-            mergeSort(arr2,i, compCount[(i/5000) - 1][j], moveCount[(i/5000) - 1][j]);
-
-
-            duration = 1000 * double( clock() - startTime ) / CLOCKS_PER_SEC;
-            durations[(i/5000) - 1][j] = duration;
-            j++;
-
-            startTime = clock();
-
-            quickSort(arr3,i, compCount[(i/5000) - 1][j], moveCount[(i/5000) - 1][j]);
+        mergeSort(arr2,i, compCount[(i/5000) - 1][j], moveCount[(i/5000) - 1][j]);
 
 
-            duration = 1000 * double( clock() - startTime ) / CLOCKS_PER_SEC;
-            durations[(i/5000) - 1][j] = duration;
+        duration = 1000 * double( clock() - startTime ) / CLOCKS_PER_SEC;
+        durations[(i/5000) - 1][j] = duration;
+        j++;
 
+        startTime = clock();
+
+        quickSort(arr3,i, compCount[(i/5000) - 1][j], moveCount[(i/5000) - 1][j]);
+
+
+        duration = 1000 * double( clock() - startTime ) / CLOCKS_PER_SEC;
+        durations[(i/5000) - 1][j] = duration;
     }
 
+    cout << "-----------------------------------------------------" << endl;
+    cout << "Part c - Time analysis of Insertion Sort" << endl;
+    printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
 
+    for(int i = 0; i < 6; i++){
+        printf("%-15d %-3.0lf %-11s  %-15d %-15d \n", (i+1)*5000, durations[i][0] , " ms", compCount[i][0],  moveCount[i][0]);
+    }
 
-        cout << "-----------------------------------------------------" << endl;
-        cout << "Part c - Time analysis of Insertion Sort" << endl;
-        printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
+    cout << "-----------------------------------------------------" << endl;
+    cout << "Part c - Time analysis of Merge Sort" << endl;
+    printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
 
-         for(int i = 0; i < 5; i++){
-            printf("%-15d %-3.0lf %-11s  %-15d %-15d \n", (i+1)*5000, durations[i][0] , " ms", compCount[i][0],  moveCount[i][0]);
-         }
+    for(int i = 0; i < 6; i++){
+        printf("%-15d %-3.0lf %-11s  %-15d %-15d \n", (i+1)*5000, durations[i][1] , " ms", compCount[i][1],  moveCount[i][1]);
+    }
 
-        cout << "-----------------------------------------------------" << endl;
-        cout << "Part c - Time analysis of Merge Sort" << endl;
-        printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
+    cout << "-----------------------------------------------------" << endl;
+    cout << "Part c - Time analysis of Quick Sort" << endl;
+    printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
 
-         for(int i = 0; i < 5; i++){
-            printf("%-15d %-3.0lf %-11s  %-15d %-15d \n", (i+1)*5000, durations[i][1] , " ms", compCount[i][1],  moveCount[i][1]);
-         }
-
-        cout << "-----------------------------------------------------" << endl;
-        cout << "Part c - Time analysis of Quick Sort" << endl;
-        printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
-
-         for(int i = 0; i < 5; i++){
-            printf("%-15d %-3.0lf %-11s  %-15d %-15d \n", (i+1)*5000, durations[i][2] , " ms", compCount[i][2],  moveCount[i][2]);
-         }
-
-
-
-
-
-//    mergeSort(arr1,N, compCount, moveCount);
-   // quickSort(arr1,N, compCount, moveCount);
-
+    for(int i = 0; i < 6; i++){
+        printf("%-15d %-3.0lf %-11s  %-15d %-15d \n", (i+1)*5000, durations[i][2] , " ms", compCount[i][2],  moveCount[i][2]);
+    }
 }
 
 

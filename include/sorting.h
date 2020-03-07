@@ -18,11 +18,6 @@ void partition(int *theArray, int first, int last, int &pivotIndex, int &compCou
 void choosePivot(int *theArray, int first, int last);
 void merge(int *theArray, int first, int mid, int last, int &compCount, int &moveCount);
 void mergesort( int *theArray, int first, int last, int &compCount, int &moveCount);
-int timer(int* arr, int N, int value, bool linearSearch,int times);
 void performanceAnalysis();
-
-
-
-
 
 #endif // SORTING_H
