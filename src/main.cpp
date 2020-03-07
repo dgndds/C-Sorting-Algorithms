@@ -14,16 +14,16 @@ using namespace std;
 */
 
 int main(){
-//    int* arr1;
-//    int* arr2;
-//    int* arr3;
+    int* arr1;
+    int* arr2;
+    int* arr3;
 //
-//    int moveCount = 0;
-//    int compCount = 0;
-//    int size = 5;
-//
-//    createRandomArrays(arr1, arr2, arr3, 5000);
-//
+    int moveCount = 0;
+    int compCount = 0;
+    int size = 5;
+
+    createRandomArrays(arr1, arr2, arr3, 5000);
+
 //    displayArray(arr1, 5);
 //
 //    mergeSort(arr1,size, compCount, moveCount);
@@ -32,8 +32,16 @@ int main(){
 //
 //    cout << "Move count: " << moveCount << endl;
 //    cout << "Comp count: " << compCount << endl;
-
+//
 performanceAnalysis();
+
+//createRandomArrays(arr1, arr2, arr3, 5000);
+////displayArray(arr1, 5);
+
+//insertionSort(arr1,5000,compCount,moveCount);
+//
+//cout << "Move count: " << moveCount << endl;
+//cout << "Comp count: " << compCount << endl;
 
     return 0;
 }

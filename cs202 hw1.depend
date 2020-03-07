@@ -29,14 +29,14 @@
 
 1582714231 d:\cs202 hw1\c-sorting-algorithms\include\auxarrayfunctions.h
 
-1583520516 source:d:\cs202 hw1\c-sorting-algorithms\src\main.cpp
+1583582758 source:d:\cs202 hw1\c-sorting-algorithms\src\main.cpp
 	<iostream>
 	"sorting.h"
 	"auxArrayFunctions.h"
 
 1583520232 d:\cs202 hw1\c-sorting-algorithms\include\sorting.h
 
-1583525372 source:d:\cs202 hw1\c-sorting-algorithms\src\sorting.cpp
+1583582411 source:d:\cs202 hw1\c-sorting-algorithms\src\sorting.cpp
 	"sorting.h"
 	"auxArrayFunctions.h"
 	<iostream>
