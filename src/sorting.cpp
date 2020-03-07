@@ -143,7 +143,7 @@ void mergeSort(int *arr, int size, int &compCount, int &moveCount){
 }
 
 
-void performanceAnalysis(){
+void performanceAnalysis(bool sorted){
 
     int moveCount[6][3] = {{0, 0},{0, 0}};
     int compCount[6][3] = {{0, 0},{0, 0}};
@@ -156,7 +156,12 @@ void performanceAnalysis(){
         int* arr2;
         int* arr3;
 
-        createRandomArrays(arr1, arr2, arr3, i);
+        if(sorted){
+            createAlreadySortedArrays(arr1, arr2, arr3, i);
+        }else{
+            createRandomArrays(arr1, arr2, arr3, i);
+        }
+
 
         int j = 0;
 
@@ -193,7 +198,7 @@ void performanceAnalysis(){
     printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
 
     for(int i = 0; i < 6; i++){
-        printf("%-15d %-3.0lf %-11s  %-15d %-15d \n", (i+1)*5000, durations[i][0] , " ms", compCount[i][0],  moveCount[i][0]);
+        printf("%-15d %-4.0lf %-10s  %-15d %-15d \n", (i+1)*5000, durations[i][0] , " ms", compCount[i][0],  moveCount[i][0]);
     }
 
     cout << "-----------------------------------------------------" << endl;
@@ -201,7 +206,7 @@ void performanceAnalysis(){
     printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
 
     for(int i = 0; i < 6; i++){
-        printf("%-15d %-3.0lf %-11s  %-15d %-15d \n", (i+1)*5000, durations[i][1] , " ms", compCount[i][1],  moveCount[i][1]);
+        printf("%-15d %-4.0lf %-10s  %-15d %-15d \n", (i+1)*5000, durations[i][1] , " ms", compCount[i][1],  moveCount[i][1]);
     }
 
     cout << "-----------------------------------------------------" << endl;
@@ -209,7 +214,7 @@ void performanceAnalysis(){
     printf("%-15s %-16s %-15s %-15s \n", "Array Size","Time Elapsed","compCount","moveCount");
 
     for(int i = 0; i < 6; i++){
-        printf("%-15d %-3.0lf %-11s  %-15d %-15d \n", (i+1)*5000, durations[i][2] , " ms", compCount[i][2],  moveCount[i][2]);
+        printf("%-15d %-4.0lf %-10s  %-15d %-15d \n", (i+1)*5000, durations[i][2] , " ms", compCount[i][2],  moveCount[i][2]);
     }
 }
 
