@@ -26,9 +26,9 @@ void insertionSort(int *arr, int size, int &compCount, int &moveCount){
 
     int loc = unsorted;
 
+    compCount++;
     for (  ;(loc > 0) && (arr[loc-1] > nextItem); --loc){
         arr[loc] = arr[loc-1];
-        compCount++;
         moveCount++;
     }
 
@@ -53,8 +53,8 @@ void partition(int *theArray, int first, int last, int &pivotIndex, int &compCou
       //            theArray[lastS1+1..firstUnknown-1] >= pivot
 
       // move item from unknown to proper region
+      compCount++;
       if (theArray[firstUnknown] < pivot) {  	// belongs to S1
-          compCount++;
 		  ++lastS1;
     	  swap(theArray[firstUnknown], theArray[lastS1]);
           moveCount++;
@@ -97,9 +97,10 @@ void merge(int *theArray, int first, int mid, int last, int &compCount, int &mov
     int last2 = last;		// end of second subarray
     int index = first1; // next available location in tempArray
 
+
    for ( ; (first1 <= last1) && (first2 <= last2); ++index) {
+        compCount++;
       if (theArray[first1] < theArray[first2]) {
-         compCount++;
          tempArray[index] = theArray[first1];
          moveCount++;
          ++first1;
